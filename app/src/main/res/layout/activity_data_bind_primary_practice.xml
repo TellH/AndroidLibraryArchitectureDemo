@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="title"
+            type="String" />
+
+        <variable
+            name="male"
+            type="com.tellh.androidlibraryarchitecturedemo.databinding.Person" />
+
+        <variable
+            name="female"
+            type="com.tellh.androidlibraryarchitecturedemo.databinding.Person" />
+
+        <variable
+            name="handler"
+            type="com.tellh.androidlibraryarchitecturedemo.databinding.DataBindPrimaryPracticeActivity.Handler" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{title}"
+            android:textSize="30sp" />
+
+        <include
+            layout="@layout/include_person_display"
+            bind:handler="@{handler}"
+            bind:person="@{male}" />
+
+        <include
+            layout="@layout/include_person_display"
+            bind:handler="@{handler}"
+            bind:person="@{female}" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{()->handler.onClickTestBtn(female)}"
+            android:text="lambda表达式实现自定义参数的监听器"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tvWithId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="onClickBtnLoadViewStub"
+                android:text="加载ViewStub"
+                android:textSize="15sp" />
+
+            <ViewStub
+                android:id="@+id/viewStub"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout="@layout/view_stub_databinding" />
+        </LinearLayout>
+    </LinearLayout>
+</layout>

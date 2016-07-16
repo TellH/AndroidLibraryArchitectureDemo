@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="com.tellh.androidlibraryarchitecturedemo.databinding.Book" />
+        <variable
+            name="item"
+            type="Book" />
+    </data>
+
+    <LinearLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/book_thumbnail_imageview"
+            android:layout_width="80dp"
+            android:layout_height="100dp"
+            tools:src="@mipmap/ic_launcher" />
+        <!--app:imageUrl="@{item.thumbnail}"-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/book_title_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="@{item.title}"
+                tools:text="Title" />
+
+            <TextView
+                android:id="@+id/book_authors_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:text="@{item.author}"
+                tools:text="Author name" />
+
+            <TextView
+                android:id="@+id/book_publisher_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:text="@{item.publisher}"
+                tools:text="Publisher name" />
+        </LinearLayout>
+    </LinearLayout>
+</layout>
