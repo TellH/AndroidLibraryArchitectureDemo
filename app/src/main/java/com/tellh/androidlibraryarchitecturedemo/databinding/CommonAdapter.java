@@ -34,6 +34,7 @@ abstract public class CommonAdapter extends RecyclerView.Adapter<CommonAdapter.B
     @Override
     public void onBindViewHolder(BindingViewHolder holder, int position) {
         holder.bind(items.get(position));
+        holder.getBinding().executePendingBindings();
     }
 
     @Override

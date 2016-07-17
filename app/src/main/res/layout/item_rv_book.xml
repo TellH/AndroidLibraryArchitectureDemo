@@ -20,8 +20,8 @@
             android:id="@+id/book_thumbnail_imageview"
             android:layout_width="80dp"
             android:layout_height="100dp"
-            app:error="@{@drawable/error}"
             app:imageUrl="@{item.thumbnail}"
+            app:error="@{@drawable/error}"
             tools:src="@mipmap/ic_launcher" />
 
         <LinearLayout
