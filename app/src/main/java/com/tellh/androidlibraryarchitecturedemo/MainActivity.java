@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.tellh.androidlibraryarchitecturedemo.databinding.DataBindPrimaryPracticeActivity;
 import com.tellh.androidlibraryarchitecturedemo.databinding.DataBindingRVActivity;
+import com.tellh.androidlibraryarchitecturedemo.glide.GlideDemoActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,5 +23,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickDataBindingRecyclerView(View view) {
         startActivity(new Intent(MainActivity.this, DataBindingRVActivity.class));
+    }
+
+    public void onClickGlideDemo(View view) {
+        startActivity(new Intent(MainActivity.this, GlideDemoActivity.class));
     }
 }

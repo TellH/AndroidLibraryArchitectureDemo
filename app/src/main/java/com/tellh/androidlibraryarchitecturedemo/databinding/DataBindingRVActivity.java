@@ -43,7 +43,7 @@ public class DataBindingRVActivity extends AppCompatActivity {
         books.add(new Book("瓦尔登湖", "梭罗", "中国三峡出版社",
                 "http://o762c73os.bkt.clouddn.com/book_walden.png"));
         books.add(new Book("楚辞", "屈原", "中国画报出版社",
-                "https://github.com/TellH/AndroidLibraryArchitectureDemo/blob/master/raw/book_song_chu.png"));
+                "https://raw.githubusercontent.com/TellH/AndroidLibraryArchitectureDemo/master/raw/book_song_chu.png"));
         books.add(new Book("西方哲学史", "梯利", "光明日报出版社",
                 "http://o762c73os.bkt.clouddn.com/book_west.png"));
         books.add(new Book("泰和宜山会语", "马一浮", "辽宁教育出版社",
@@ -56,6 +56,8 @@ public class DataBindingRVActivity extends AppCompatActivity {
                 "http://o762c73os.bkt.clouddn.com/book_song_chu.png"));
         books.add(new Book("MacBook", "Steve Job", "Apple Inc",
                 "http://o762c73os.bkt.clouddn.com/MacBook.jpg"));
+        books.add(new Book("Naruto", "Naruto", "Naruto",
+                "https://raw.githubusercontent.com/TellH/AndroidLibraryArchitectureDemo/master/raw/Naruto.gif"));
         rv.setAdapter(new CommonAdapter(books) {
             @Override
             protected int getItemLayoutId(int viewType) {
@@ -74,6 +76,8 @@ public class DataBindingRVActivity extends AppCompatActivity {
                     .load(url)
                     .placeholder(R.mipmap.ic_launcher)
                     .error(error)
+                    .centerCrop()
+//                    .fitCenter()
                     .into(view);
     }
 
