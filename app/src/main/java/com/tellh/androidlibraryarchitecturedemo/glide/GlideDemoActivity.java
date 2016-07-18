@@ -32,6 +32,7 @@ public class GlideDemoActivity extends AppCompatActivity {
             return false;
         }
     };
+    private String imgUrl = "https://raw.githubusercontent.com/TellH/AndroidLibraryArchitectureDemo/master/raw/xiaomeng.jpg";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,15 +41,14 @@ public class GlideDemoActivity extends AppCompatActivity {
         loadThumbnailImg();
         loadSimpleTargetImg();
         loadBlurTransformImg();
-
     }
 
     private void loadBlurTransformImg() {
         ImageView ivBlurTransform = (ImageView) findViewById(R.id.iv_blurTransform);
-        Context context=GlideDemoActivity.this;
+        Context context = GlideDemoActivity.this;
         assert ivBlurTransform != null;
         Glide.with(context)
-                .load("https://raw.githubusercontent.com/TellH/AndroidLibraryArchitectureDemo/master/raw/xiaomeng.jpg")
+                .load(imgUrl)
                 .transform(new BlurTransformation(context))
                 //.bitmapTransform( new BlurTransformation( context ) ) // this would work too!
                 .into(ivBlurTransform);
@@ -65,7 +65,7 @@ public class GlideDemoActivity extends AppCompatActivity {
             }
         };
         Glide.with(GlideDemoActivity.this)
-                .load("https://raw.githubusercontent.com/TellH/AndroidLibraryArchitectureDemo/master/raw/xiaomeng.jpg")
+                .load(imgUrl)
                 .asBitmap()
                 .into(simpleTarget);
     }
@@ -74,7 +74,7 @@ public class GlideDemoActivity extends AppCompatActivity {
         ImageView ivThumbnail = (ImageView) findViewById(R.id.iv_thumbnail);
         assert ivThumbnail != null;
         Glide.with(GlideDemoActivity.this)
-                .load("https://raw.githubusercontent.com/TellH/AndroidLibraryArchitectureDemo/master/raw/xiaomeng.jpg")
+                .load(imgUrl)
 //                .override(500,800)
                 .listener(requestListener)
                 .thumbnail(0.5f)
