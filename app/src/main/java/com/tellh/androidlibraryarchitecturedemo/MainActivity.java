@@ -8,6 +8,7 @@ import android.view.View;
 import com.tellh.androidlibraryarchitecturedemo.databinding.DataBindPrimaryPracticeActivity;
 import com.tellh.androidlibraryarchitecturedemo.databinding.DataBindingRVActivity;
 import com.tellh.androidlibraryarchitecturedemo.glide.GlideDemoActivity;
+import com.tellh.androidlibraryarchitecturedemo.volley.VolleyDemoActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,5 +28,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickGlideDemo(View view) {
         startActivity(new Intent(MainActivity.this, GlideDemoActivity.class));
+    }
+
+    public void onClickVolleyDemo(View view) {
+        startActivity(new Intent(MainActivity.this, VolleyDemoActivity.class));
     }
 }

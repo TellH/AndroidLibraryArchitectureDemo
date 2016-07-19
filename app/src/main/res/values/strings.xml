@@ -3,6 +3,7 @@
     <string name="DataBindingDemo">DataBinding初探</string>
     <string name="DataBindingRecyclerViewDemo">DataBindingRecyclerViewDemo</string>
     <string name="GlideDemo">GlideDemo</string>
+    <string name="VolleyDemo">VolleyDemo</string>
     <string name="MALE">MALE</string>
     <string name="FEMALE">FEMALE</string>
 </resources>
