@@ -8,6 +8,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.google.gson.internal.$Gson$Types;
 import com.tellh.androidlibraryarchitecturedemo.MyApplication;
+import com.tellh.androidlibraryarchitecturedemo.network.NetworkCallback;
 
 import java.util.Map;
 

@@ -1,4 +1,4 @@
-package com.tellh.androidlibraryarchitecturedemo.volley;
+package com.tellh.androidlibraryarchitecturedemo.network;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -12,9 +12,9 @@ public abstract class NetworkCallback<ResponseType> {
         return mType;
     }
 
-    abstract void onResponse(ResponseType response);
+    public abstract void onResponse(ResponseType response);
 
-    abstract void onError(Exception e);
+    public abstract void onError(Exception e);
 
     //获得泛型类型
     static public Type getSuperclassTypeParameter(Class<?> subclass) {

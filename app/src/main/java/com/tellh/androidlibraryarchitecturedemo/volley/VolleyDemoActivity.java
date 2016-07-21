@@ -7,6 +7,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tellh.androidlibraryarchitecturedemo.R;
+import com.tellh.androidlibraryarchitecturedemo.network.NetworkAccess;
+import com.tellh.androidlibraryarchitecturedemo.network.NetworkAccessListener;
+import com.tellh.androidlibraryarchitecturedemo.network.NetworkCallback;
+import com.tellh.androidlibraryarchitecturedemo.network.RequestBuilder;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,31 +33,23 @@ public class VolleyDemoActivity extends AppCompatActivity implements NetworkAcce
         Map<String, String> params = new HashMap<>();
         params.put("cityid", FORSHAN_ID);
         params.put("key", KEY);
-        networkAccess = new VolleyNetwork();
-        NetworkCallback<WeatherInfo> weatherInfoNetworkCallback = new NetworkCallback<WeatherInfo>() {
-            @Override
-            void onResponse(WeatherInfo response) {
-                tvBean.setText(response.getHeWeatherList().get(0).getSuggestion().getComf().getTxt());
-            }
+        RequestBuilder requestBuilder=new RequestBuilder();
+        requestBuilder.post()
+                .tag(TAG)
+                .url(APIURl)
+                .params(params)
+                .listener(this)
+                .callback(new NetworkCallback<WeatherInfo>() {
+                    @Override
+                    public void onResponse(WeatherInfo response) {
+                        tvBean.setText(response.getHeWeatherList().get(0).getSuggestion().getComf().getTxt());
+                    }
 
-            @Override
-            void onError(Exception e) {
-                Toast.makeText(VolleyDemoActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        };
-        NetworkCallback<String> stringNetworkCallback = new NetworkCallback<String>() {
-            @Override
-            void onResponse(String response) {
-                tvReponseStr.setText(response);
-            }
-
-            @Override
-            void onError(Exception e) {
-                Toast.makeText(VolleyDemoActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        };
-        networkAccess.setListener(this).post(APIURl, params, weatherInfoNetworkCallback);
-        networkAccess.setListener(this).post(APIURl, params, stringNetworkCallback);
+                    @Override
+                    public void onError(Exception e) {
+                        Toast.makeText(VolleyDemoActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }).buildAndExecute();
     }
 
     @Override
