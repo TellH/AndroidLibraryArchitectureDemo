@@ -1,4 +1,4 @@
-package com.tellh.androidlibraryarchitecturedemo.network;
+package com.tellh.androidlibraryarchitecturedemo.volley;
 
 import android.support.annotation.Nullable;
 
@@ -8,9 +8,13 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.gson.internal.$Gson$Types;
 import com.tellh.androidlibraryarchitecturedemo.MyApplication;
-import com.tellh.androidlibraryarchitecturedemo.volley.GsonRequest;
+import com.tellh.androidlibraryarchitecturedemo.network.NetworkAccess;
+import com.tellh.androidlibraryarchitecturedemo.network.NetworkAccessListener;
+import com.tellh.androidlibraryarchitecturedemo.network.NetworkCallback;
+import com.tellh.androidlibraryarchitecturedemo.network.Request_;
 
 import java.util.Map;
 
@@ -18,17 +22,26 @@ import java.util.Map;
  * Created by tlh on 2016/7/21.
  */
 public class VolleyNetworkAccess implements NetworkAccess {
-    private static VolleyNetworkAccess ourInstance;
-    private static RequestQueue mQueue;
+    private volatile static VolleyNetworkAccess ourInstance;
+    private RequestQueue mQueue;
 
     public static VolleyNetworkAccess getInstance() {
-        if (ourInstance == null)
-            ourInstance = new VolleyNetworkAccess();
+        if (ourInstance == null) {
+            synchronized (VolleyNetworkAccess.class) {
+                if (ourInstance != null)
+                    ourInstance = new VolleyNetworkAccess();
+            }
+        }
         return ourInstance;
     }
 
     private VolleyNetworkAccess() {
-        mQueue = MyApplication.getInstance().getRequestQueue();
+        if (mQueue == null)
+            mQueue = Volley.newRequestQueue(MyApplication.getInstance().getApplicationContext());
+    }
+
+    public RequestQueue getQueue() {
+        return mQueue;
     }
 
     @Override
@@ -128,6 +141,7 @@ public class VolleyNetworkAccess implements NetworkAccess {
                 protected Map<String, String> getParams() throws AuthFailureError {
                     return request_.getParams();
                 }
+
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     if (request_.getHeaders() != null)
@@ -157,9 +171,10 @@ public class VolleyNetworkAccess implements NetworkAccess {
             }
             requestUrl.deleteCharAt(requestUrl.length() - 1);//删除最后一个'&'
         }
-        Request request= buildRequest(request_);
+        request_.setUrl(requestUrl.toString());
+        Request request = buildRequest(request_);
         assert request != null;
-        adaptRequest(request,request_);
+        adaptRequest(request, request_);
         mQueue.add(request);
     }
 }

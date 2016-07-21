@@ -1,5 +1,7 @@
 package com.tellh.androidlibraryarchitecturedemo.network;
 
+import com.tellh.androidlibraryarchitecturedemo.volley.VolleyNetworkAccess;
+
 import java.util.Map;
 
 /**
@@ -29,6 +31,10 @@ public class Request_ {
     public Request_() {
         if (networkAccess == null)
             networkAccess = VolleyNetworkAccess.getInstance();
+    }
+
+    public static void setNetworkAccess(NetworkAccess networkAccess) {
+        Request_.networkAccess = networkAccess;
     }
 
     public String getUrl() {

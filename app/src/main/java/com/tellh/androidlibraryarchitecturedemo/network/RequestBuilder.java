@@ -7,7 +7,7 @@ public class RequestBuilder {
     private Request_ request;
 
     public RequestBuilder() {
-        request=new Request_();
+        request = new Request_();
     }
 
     public RequestBuilder get() {
@@ -45,7 +45,9 @@ public class RequestBuilder {
     }
 
     public RequestBuilder params(Map<String, String> params) {
-        request.params = params;
+        if (request.params == null)
+            request.params = params;
+        else request.params.putAll(params);
         return this;
     }
 
@@ -63,16 +65,19 @@ public class RequestBuilder {
         }
         return this;
     }
+
     public RequestBuilder listener(NetworkAccessListener listener) {
         if (listener != null) {
             request.listener = listener;
         }
         return this;
     }
+
     public Request_ build() {
         return request;
     }
-    public Request_ buildAndExecute(){
+
+    public Request_ buildAndExecute() {
         request.execute();
         return request;
     }
