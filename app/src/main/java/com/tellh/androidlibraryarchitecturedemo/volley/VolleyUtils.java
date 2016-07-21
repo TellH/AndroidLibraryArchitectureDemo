@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * Created by tlh on 2016/7/18.
  */
-public class VolleyNetworkAccess {
+public class VolleyUtils {
     private static RequestQueue mQueue = MyApplication.getInstance().getRequestQueue();
 
     public static void get(String url, Map<String, String> params) {

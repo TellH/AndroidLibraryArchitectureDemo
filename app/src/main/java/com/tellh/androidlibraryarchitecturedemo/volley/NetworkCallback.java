@@ -7,11 +7,9 @@ public abstract class NetworkCallback<ResponseType> {
     private Type mType;
 
     public Type getType() {
+        if (mType==null)
+            mType = getSuperclassTypeParameter(getClass());
         return mType;
-    }
-
-    public NetworkCallback() {
-        mType = getSuperclassTypeParameter(getClass());
     }
 
     abstract void onResponse(ResponseType response);
