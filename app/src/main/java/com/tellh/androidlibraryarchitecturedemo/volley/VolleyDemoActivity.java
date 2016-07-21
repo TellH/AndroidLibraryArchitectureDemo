@@ -3,6 +3,7 @@ package com.tellh.androidlibraryarchitecturedemo.volley;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tellh.androidlibraryarchitecturedemo.R;
 
@@ -24,27 +25,27 @@ public class VolleyDemoActivity extends AppCompatActivity {
         Map<String,String> params=new HashMap<>();
         params.put("cityid",FORSHAN_ID);
         params.put("key",KEY);
-        new VolleyNetworkAccess(new NetworkResponseListener() {
+        VolleyNetworkAccess.get(APIURl, params, new NetworkCallback<String>() {
             @Override
-            public void onSuccess(Object response) {
-                tvReponseStr.setText((String) response);
+            void onResponse(String response) {
+                tvReponseStr.setText(response);
             }
 
             @Override
-            public void onError() {
-                tvReponseStr.setText("error!");
+            void onError(Exception e) {
+                Toast.makeText(VolleyDemoActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        }).get(APIURl,params);
-        new VolleyNetworkAccess<WeatherInfo>(WeatherInfo.class,new NetworkResponseListener<WeatherInfo>() {
+        });
+        VolleyNetworkAccess.post(APIURl, params, new NetworkCallback<WeatherInfo>() {
             @Override
-            public void onSuccess(WeatherInfo response) {
-                tvBean.setText(response.toString());
+            void onResponse(WeatherInfo response) {
+                tvBean.setText(response.getHeWeatherList().get(0).getSuggestion().getComf().getTxt());
             }
 
             @Override
-            public void onError() {
-                tvBean.setText("error!");
+            void onError(Exception e) {
+                Toast.makeText(VolleyDemoActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        }).post(APIURl,params);
+        });
     }
 }

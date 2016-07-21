@@ -6,6 +6,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.google.gson.internal.$Gson$Types;
 import com.tellh.androidlibraryarchitecturedemo.MyApplication;
 
 import java.util.Map;
@@ -13,29 +14,14 @@ import java.util.Map;
 /**
  * Created by tlh on 2016/7/18.
  */
-public class VolleyNetworkAccess<ResponseType> implements NetworkAccess {
-    private RequestQueue mQueue = MyApplication.getInstance().getRequestQueue();
-    private Class<ResponseType> mClass;
-    private NetworkResponseListener<ResponseType> mListener;
-    private Request request;
+public class VolleyNetworkAccess {
+    private static RequestQueue mQueue = MyApplication.getInstance().getRequestQueue();
 
-    public VolleyNetworkAccess(NetworkResponseListener listener) {
-        mListener = listener;
+    public static void get(String url, Map<String, String> params) {
+        get(url, params, null);
     }
 
-    public VolleyNetworkAccess(Class<ResponseType> clz, NetworkResponseListener listener) {
-        mClass = clz;
-        mListener = listener;
-    }
-
-
-    @Override
-    public void get(String url) {
-        get(url, null);
-    }
-
-    @Override
-    public void get(String url, Map<String, String> params) {
+    public static void get(String url, Map<String, String> params, final NetworkCallback listener) {
         //把请求参数组装到url中
         StringBuilder requestUrl = new StringBuilder(url);
         if (params != null) {
@@ -48,51 +34,71 @@ public class VolleyNetworkAccess<ResponseType> implements NetworkAccess {
             }
             requestUrl.deleteCharAt(requestUrl.length() - 1);//删除最后一个'&'
         }
-        if (mClass == null)
-            request = new StringRequest(Request.Method.GET, requestUrl.toString(), new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    if (mListener != null)
-                        mListener.onSuccess((ResponseType) response);
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    if (mListener != null)
-                        mListener.onError();
-                }
-            });
-        else
-            request = new GsonRequest<ResponseType>(Request.Method.POST, requestUrl.toString(), mClass, new Response.Listener<ResponseType>() {
-                @Override
-                public void onResponse(ResponseType response) {
-                    if (mListener != null)
-                        mListener.onSuccess((ResponseType) response);
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    if (mListener != null)
-                        mListener.onError();
-                }
-            });
+        Request request;
+        if (listener == null) {
+            request = new StringRequest(requestUrl.toString(), null, null);
+            mQueue.add(request);
+            return;
+        }
+        if (listener.getType() == String.class) {
+            request = new StringRequest(Request.Method.GET, requestUrl.toString(),
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            listener.onResponse(response);
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            listener.onError(error);
+                        }
+                    });
+        } else {
+            request = new GsonRequest(Request.Method.GET, requestUrl.toString(),
+                    $Gson$Types.canonicalize(listener.getType()),
+                    new Response.Listener() {
+                        @Override
+                        public void onResponse(Object response) {
+                            listener.onResponse(response);
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            listener.onError(error);
+                        }
+                    });
+        }
         mQueue.add(request);
     }
 
-    @Override
-    public void post(String url, final Map<String, String> params) {
-        if (mClass == null)
+    public static void post(String url, final Map<String, String> params) {
+        post(url, params, null);
+    }
+
+    public static void post(String url, final Map<String, String> params, final NetworkCallback listener) {
+        Request request;
+        if (listener == null) {
+            request = new StringRequest(url, null, null){
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    return params;
+                }
+            };
+            mQueue.add(request);
+            return;
+        }
+        if (listener.getType() == String.class)
             request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    if (mListener != null)
-                        mListener.onSuccess((ResponseType) response);
+                        listener.onResponse(response);
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    if (mListener != null)
-                        mListener.onError();
+                        listener.onError(error);
                 }
             }) {
                 @Override
@@ -101,17 +107,17 @@ public class VolleyNetworkAccess<ResponseType> implements NetworkAccess {
                 }
             };
         else
-            request = new GsonRequest<ResponseType>(Request.Method.POST, url, mClass, new Response.Listener<ResponseType>() {
+            request = new GsonRequest(Request.Method.POST, url,
+                    $Gson$Types.canonicalize(listener.getType()),
+                    new Response.Listener() {
                 @Override
-                public void onResponse(ResponseType response) {
-                    if (mListener != null)
-                        mListener.onSuccess(response);
+                public void onResponse(Object response) {
+                        listener.onResponse(response);
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    if (mListener != null)
-                        mListener.onError();
+                        listener.onError(error);
                 }
             }) {
                 @Override

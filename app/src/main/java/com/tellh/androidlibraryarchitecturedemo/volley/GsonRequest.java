@@ -8,6 +8,7 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.google.gson.Gson;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
 
 public class GsonRequest<T> extends Request<T> {
 
@@ -15,9 +16,9 @@ public class GsonRequest<T> extends Request<T> {
 
     private Gson mGson;
 
-    private Class<T> mClass;
+    private Type mClass;
 
-    public GsonRequest(int method, String url, Class<T> clazz, Response.Listener<T> listener,
+    public GsonRequest(int method, String url, Type clazz, Response.Listener<T> listener,
                        Response.ErrorListener errorListener) {
         super(method, url, errorListener);
         mGson = new Gson();
@@ -25,7 +26,7 @@ public class GsonRequest<T> extends Request<T> {
         mListener = listener;
     }
 
-    public GsonRequest(String url, Class<T> clazz, Response.Listener<T> listener,
+    public GsonRequest(String url, Type clazz, Response.Listener<T> listener,
                        Response.ErrorListener errorListener) {
         this(Method.GET, url, clazz, listener, errorListener);
     }
@@ -38,7 +39,7 @@ public class GsonRequest<T> extends Request<T> {
             String jsonString = new String(response.data,
                     HttpHeaderParser.parseCharset(response.headers));
             //根据字符串转成Bean对象
-            return Response.success(mGson.fromJson(jsonString, mClass),
+            return (Response<T>) Response.success(mGson.fromJson(jsonString, mClass),
                     HttpHeaderParser.parseCacheHeaders(response));
         } catch (UnsupportedEncodingException e) {
             return Response.error(new ParseError(e));
