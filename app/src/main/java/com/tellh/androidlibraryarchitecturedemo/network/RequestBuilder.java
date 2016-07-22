@@ -43,7 +43,11 @@ public class RequestBuilder {
         request.headers.put(key, val);
         return this;
     }
-
+    public RequestBuilder removeHeader(String name) {
+        if (request.headers != null)
+            request.headers.remove(name);
+        return this;
+    }
     public RequestBuilder params(Map<String, String> params) {
         if (request.params == null)
             request.params = params;
@@ -58,7 +62,11 @@ public class RequestBuilder {
         request.params.put(key, val);
         return this;
     }
-
+    public RequestBuilder removeParam(String key){
+        if (request.params!=null)
+            request.params.remove(key);
+        return this;
+    }
     public RequestBuilder callback(NetworkCallback callback) {
         if (callback != null) {
             request.callback = callback;

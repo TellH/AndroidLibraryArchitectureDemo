@@ -21,7 +21,8 @@
         <activity android:name=".databinding.DataBindPrimaryPracticeActivity" />
         <activity android:name=".databinding.DataBindingRVActivity" />
         <activity android:name=".glide.GlideDemoActivity" />
-        <activity android:name=".volley.VolleyDemoActivity"></activity>
+        <activity android:name=".volley.VolleyDemoActivity" />
+        <activity android:name=".okhttp.OkExampleActivity"></activity>
     </application>
 
 </manifest>
