@@ -1,6 +1,6 @@
 package com.tellh.androidlibraryarchitecturedemo.network;
 
-import com.tellh.androidlibraryarchitecturedemo.volley.VolleyNetworkAccess;
+import com.tellh.androidlibraryarchitecturedemo.retrofit.RetrofitNetworkAccess;
 
 import java.util.Map;
 
@@ -30,7 +30,8 @@ public class Request_ {
 
     public Request_() {
         if (networkAccess == null)
-            networkAccess = VolleyNetworkAccess.getInstance();
+//            networkAccess = VolleyNetworkAccess.getInstance();
+            networkAccess = RetrofitNetworkAccess.getInstance();
     }
 
     public static void setNetworkAccess(NetworkAccess networkAccess) {

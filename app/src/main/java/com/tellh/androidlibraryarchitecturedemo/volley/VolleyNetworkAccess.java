@@ -28,7 +28,7 @@ public class VolleyNetworkAccess implements NetworkAccess {
     public static VolleyNetworkAccess getInstance() {
         if (ourInstance == null) {
             synchronized (VolleyNetworkAccess.class) {
-                if (ourInstance != null)
+                if (ourInstance == null)
                     ourInstance = new VolleyNetworkAccess();
             }
         }

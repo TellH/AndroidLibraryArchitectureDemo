@@ -15,8 +15,20 @@ public class RequestBuilder {
         return this;
     }
 
+    public RequestBuilder get(String url) {
+        request.method = Request_.Method.GET;
+        request.url = url;
+        return this;
+    }
+
     public RequestBuilder post() {
         request.method = Request_.Method.POST;
+        return this;
+    }
+
+    public RequestBuilder post(String url) {
+        request.method = Request_.Method.POST;
+        request.url = url;
         return this;
     }
 

@@ -9,6 +9,7 @@ import com.tellh.androidlibraryarchitecturedemo.databinding.DataBindPrimaryPract
 import com.tellh.androidlibraryarchitecturedemo.databinding.DataBindingRVActivity;
 import com.tellh.androidlibraryarchitecturedemo.glide.GlideDemoActivity;
 import com.tellh.androidlibraryarchitecturedemo.okhttp.OkExampleActivity;
+import com.tellh.androidlibraryarchitecturedemo.retrofit.RetrofitActivity;
 import com.tellh.androidlibraryarchitecturedemo.volley.VolleyDemoActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -37,5 +38,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickOkHttpDemo(View view) {
         startActivity(new Intent(MainActivity.this, OkExampleActivity.class));
+    }
+
+    public void onClickRetrofitDemo(View view) {
+        startActivity(new Intent(MainActivity.this, RetrofitActivity.class));
     }
 }

@@ -7,4 +7,5 @@
     <string name="OkHttpDemo">OkHttpDemo</string>
     <string name="MALE">MALE</string>
     <string name="FEMALE">FEMALE</string>
+    <string name="RetrofitDemo">RetrofitDemo</string>
 </resources>
