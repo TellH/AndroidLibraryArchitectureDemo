@@ -11,6 +11,7 @@ import com.tellh.androidlibraryarchitecturedemo.network.RequestBuilder;
 import com.tellh.androidlibraryarchitecturedemo.volley.WeatherInfo;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class RetrofitActivity extends AppCompatActivity {
@@ -24,21 +25,24 @@ public class RetrofitActivity extends AppCompatActivity {
         Map<String, String> params = new HashMap<>();
         params.put("key", "ba8c19698d164e098048dd401ac5ec65");
         params.put("cityid", "CN101280800");
-//        WeatherApiClient.client().weatherService()
-////                .getWeather("ba8c19698d164e098048dd401ac5ec65", "CN101280800")
-//                .getWeather(params)
-//                .enqueue(new Callback<WeatherInfo>() {
-//                    @Override
-//                    public void onResponse(Call<WeatherInfo> call, Response<WeatherInfo> response) {
-//                        tvReponseStr.setText(response.body().getHeWeatherList().get(0).getSuggestion().getComf().getTxt());
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<WeatherInfo> call, Throwable t) {
-//                        Toast.makeText(RetrofitActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-//                    }
-//                });
+        new RequestBuilder()
+                .get()
+                .url("https://api.github.com/repos/square/retrofit/contributors")
+                .callback(new NetworkCallback<List<GithubApiClient.ReposService.Contributor>>() {
+                    @Override
+                    public void onResponse(List<GithubApiClient.ReposService.Contributor> response) {
+                        tvReponseStr.setText(response.get(3).name);
+                    }
 
+                    @Override
+                    public void onError(Exception e) {
+                        Toast.makeText(RetrofitActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .buildAndExecute();
+    }
+
+    private void getWeather(Map<String, String> params) {
         new RequestBuilder()
                 .post()
                 .url("https://api.heweather.com/x3/weather")
@@ -55,5 +59,22 @@ public class RetrofitActivity extends AppCompatActivity {
                     }
                 })
                 .buildAndExecute();
+    }
+
+    private void weatherClient(Map<String, String> params) {
+//        WeatherApiClient.client().weatherService()
+////                .getWeather("ba8c19698d164e098048dd401ac5ec65", "CN101280800")
+//                .getWeather(params)
+//                .enqueue(new Callback<WeatherInfo>() {
+//                    @Override
+//                    public void onResponse(Call<WeatherInfo> call, Response<WeatherInfo> response) {
+//                        tvReponseStr.setText(response.body().getHeWeatherList().get(0).getSuggestion().getComf().getTxt());
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<WeatherInfo> call, Throwable t) {
+//                        Toast.makeText(RetrofitActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+//                    }
+//                });
     }
 }

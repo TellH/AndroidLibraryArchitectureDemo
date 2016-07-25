@@ -1,7 +1,9 @@
 package com.tellh.androidlibraryarchitecturedemo.retrofit;
 
 import com.google.gson.Gson;
-import com.google.gson.internal.$Gson$Types;
+import com.google.gson.TypeAdapter;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 import com.tellh.androidlibraryarchitecturedemo.network.NetworkAccess;
 import com.tellh.androidlibraryarchitecturedemo.network.NetworkAccessListener;
 import com.tellh.androidlibraryarchitecturedemo.network.NetworkCallback;
@@ -55,23 +57,27 @@ public class RetrofitNetworkAccess implements NetworkAccess {
         String url = request.getUrl();
         if (!url.endsWith("/"))
             url += "/";
-        //baseUrl()必须要调用
+        //baseUrl()必须要调用，url必须以'/'结尾
         retrofit = new Retrofit.Builder()
                 .baseUrl(url)
                 .build();
         RetroService service = retrofit.create(RetroService.class);
         switch (request.getMethod()) {
             case Request_.Method.GET:
-                if (request.getHeaders() != null)
-                    call = service.get(request.getParams(), url, request.getHeaders());
-                else
-                    call = service.get(request.getParams(), url);
+                if (request.getHeaders() != null && request.getParams() != null)
+                    call = service.get(request.getParams(), request.getUrl(), request.getHeaders());
+                else if (request.getHeaders() == null && request.getParams() == null)
+                    call = service.get(request.getUrl());
+                else if (request.getParams() != null)
+                    call = service.get(request.getParams(), request.getUrl());
                 break;
             case Request_.Method.POST:
-                if (request.getHeaders() != null)
-                    call = service.post(request.getParams(), url, request.getHeaders());
-                else
-                    call = service.post(request.getParams(), url);
+                if (request.getHeaders() != null && request.getParams() != null)
+                    call = service.post(request.getParams(), request.getUrl(), request.getHeaders());
+                else if (request.getHeaders() == null && request.getParams() == null)
+                    call = service.post(request.getUrl());
+                else if (request.getParams() != null)
+                    call = service.post(request.getParams(), request.getUrl());
                 break;
             default:
                 break;
@@ -88,27 +94,26 @@ public class RetrofitNetworkAccess implements NetworkAccess {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                String responseStr = null;
+                ResponseBody body = response.body();
                 try {
-                    responseStr = response.body().string();
+                    if (callback != null) {
+                        if (callback.getType() == String.class)
+                            callback.onResponse(body.string());
+                        else {
+                            Gson gson = new Gson();
+                            TypeAdapter<?> adapter = gson.getAdapter(TypeToken.get(callback.getType()));
+                            JsonReader jsonReader = gson.newJsonReader(response.body().charStream());
+                            callback.onResponse(adapter.read(jsonReader));
+//                            callback.onResponse(gson.fromJson(responseStr, $Gson$Types.canonicalize(callback.getType())));
+                        }
+                    }
                 } catch (IOException e) {
-                    if (callback != null)
-                        callback.onError(e);
+                    callback.onError(e);
+                } finally {
+                    body.close();
                     if (listener != null)
                         listener.onNetworkAccessFinish();
                 }
-                if (responseStr == null)
-                    return;
-                if (callback != null) {
-                    if (callback.getType() == String.class)
-                        callback.onResponse(responseStr);
-                    else {
-                        Gson gson = new Gson();
-                        callback.onResponse(gson.fromJson(responseStr, $Gson$Types.canonicalize(callback.getType())));
-                    }
-                }
-                if (listener != null)
-                    listener.onNetworkAccessFinish();
             }
 
             @Override
@@ -131,6 +136,9 @@ public class RetrofitNetworkAccess implements NetworkAccess {
         @GET
         Call<ResponseBody> get(@QueryMap Map<String, String> params, @Url String url);
 
+        @GET
+        Call<ResponseBody> get(@Url String url);
+
         @FormUrlEncoded
         @POST
         Call<ResponseBody> post(@FieldMap Map<String, String> params, @Url String url, @HeaderMap Map<String, String> headers);
@@ -138,5 +146,9 @@ public class RetrofitNetworkAccess implements NetworkAccess {
         @FormUrlEncoded
         @POST
         Call<ResponseBody> post(@FieldMap Map<String, String> params, @Url String url);
+
+        @FormUrlEncoded
+        @POST
+        Call<ResponseBody> post(@Url String url);
     }
 }

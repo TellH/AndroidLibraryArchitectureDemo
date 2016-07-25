@@ -23,7 +23,7 @@
         <activity android:name=".glide.GlideDemoActivity" />
         <activity android:name=".volley.VolleyDemoActivity" />
         <activity android:name=".okhttp.OkExampleActivity" />
-        <activity android:name=".retrofit.RetrofitActivity"></activity>
+        <activity android:name=".retrofit.RetrofitActivity" />
     </application>
 
 </manifest>
