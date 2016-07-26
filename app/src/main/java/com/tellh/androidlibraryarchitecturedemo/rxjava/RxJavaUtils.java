@@ -30,6 +30,12 @@ public class RxJavaUtils {
                         if (listener!=null)
                         listener.onNetworkAccessStart();
                     }
+                }).doOnCompleted(new Action0() {
+                    @Override
+                    public void call() {
+                        if (listener!=null)
+                            listener.onNetworkAccessFinish();
+                    }
                 }).subscribeOn(AndroidSchedulers.mainThread());
             }
         };

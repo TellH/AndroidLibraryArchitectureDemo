@@ -5,7 +5,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.tellh.androidlibraryarchitecturedemo.R;
@@ -14,10 +13,12 @@ import com.tellh.androidlibraryarchitecturedemo.network.NetworkAccessListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import rx.functions.Action1;
+
 public class RxRetrofitDemoActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, NetworkAccessListener {
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private List<MovieEntity.SubjectsEntity> mList = new ArrayList();
+    private List<MovieEntity.SubjectsEntity> mList = new ArrayList<>();
     private BaseRecyclerAdapter<MovieEntity.SubjectsEntity> adapter;
 
     @Override
@@ -54,18 +55,12 @@ public class RxRetrofitDemoActivity extends AppCompatActivity implements SwipeRe
     }
 
     private void getMovie() {
-        GetTopMovieModel.getInstance().getTopMovie(new EasyCallBackSubscriber<List<MovieEntity.SubjectsEntity>>(this) {
+        GetTopMovieModel.getInstance().getTopMovie(new Action1<List<MovieEntity.SubjectsEntity>>() {
             @Override
-            public void onNext(List<MovieEntity.SubjectsEntity> subjectsEntities) {
+            public void call(List<MovieEntity.SubjectsEntity> subjectsEntities) {
                 mList.clear();
                 mList.addAll(subjectsEntities);
                 adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                super.onError(e);
-                Toast.makeText(RxRetrofitDemoActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }, 0, 50, this);
     }

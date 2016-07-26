@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 import rx.Observable;
-import rx.Subscriber;
+import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
@@ -62,7 +62,7 @@ public class GetTopMovieModel {
      * @param start 起始位置
      * @param count 获取长度
      */
-    public void getTopMovie(Subscriber<List<MovieEntity.SubjectsEntity>> subscriber, int start, int count, NetworkAccessListener listener){
+    public void getTopMovie(Action1<List<MovieEntity.SubjectsEntity>> subscriber, int start, int count, NetworkAccessListener listener){
         movieService.getTopMovie(start, count)
                 //下面两个compose的次序不能颠倒
                 .compose(SchedulersCompat.<MovieEntity>applyIoSchedulers())
