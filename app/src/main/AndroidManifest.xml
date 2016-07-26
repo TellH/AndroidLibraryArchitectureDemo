@@ -24,6 +24,8 @@
         <activity android:name=".volley.VolleyDemoActivity" />
         <activity android:name=".okhttp.OkExampleActivity" />
         <activity android:name=".retrofit.RetrofitActivity" />
+        <activity android:name=".rxjava.RxjavaDemoActivity" />
+        <activity android:name=".rxjava.RxjavaAppListActivity"></activity>
     </application>
 
 </manifest>

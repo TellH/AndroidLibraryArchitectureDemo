@@ -1,8 +1,8 @@
 package com.tellh.androidlibraryarchitecturedemo;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.tellh.androidlibraryarchitecturedemo.databinding.DataBindPrimaryPracticeActivity;
@@ -10,6 +10,7 @@ import com.tellh.androidlibraryarchitecturedemo.databinding.DataBindingRVActivit
 import com.tellh.androidlibraryarchitecturedemo.glide.GlideDemoActivity;
 import com.tellh.androidlibraryarchitecturedemo.okhttp.OkExampleActivity;
 import com.tellh.androidlibraryarchitecturedemo.retrofit.RetrofitActivity;
+import com.tellh.androidlibraryarchitecturedemo.rxjava.RxjavaAppListActivity;
 import com.tellh.androidlibraryarchitecturedemo.volley.VolleyDemoActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -42,5 +43,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickRetrofitDemo(View view) {
         startActivity(new Intent(MainActivity.this, RetrofitActivity.class));
+    }
+
+    public void onClickRxJavaDemo(View view) {
+        startActivity(new Intent(MainActivity.this, RxjavaAppListActivity.class));
     }
 }
