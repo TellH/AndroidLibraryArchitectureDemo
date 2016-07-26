@@ -10,6 +10,7 @@ import com.tellh.androidlibraryarchitecturedemo.databinding.DataBindingRVActivit
 import com.tellh.androidlibraryarchitecturedemo.glide.GlideDemoActivity;
 import com.tellh.androidlibraryarchitecturedemo.okhttp.OkExampleActivity;
 import com.tellh.androidlibraryarchitecturedemo.retrofit.RetrofitActivity;
+import com.tellh.androidlibraryarchitecturedemo.rxjava.RxRetrofitDemoActivity;
 import com.tellh.androidlibraryarchitecturedemo.rxjava.RxjavaAppListActivity;
 import com.tellh.androidlibraryarchitecturedemo.volley.VolleyDemoActivity;
 
@@ -47,5 +48,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickRxJavaDemo(View view) {
         startActivity(new Intent(MainActivity.this, RxjavaAppListActivity.class));
+    }
+
+    public void onClickRxRetrofitDemo(View view) {
+        startActivity(new Intent(MainActivity.this, RxRetrofitDemoActivity.class));
     }
 }

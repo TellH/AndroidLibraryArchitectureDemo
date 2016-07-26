@@ -9,6 +9,9 @@ import android.graphics.drawable.Drawable;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
@@ -54,5 +57,12 @@ public class Utils {
                 e.printStackTrace();
             }
         }
+    }
+    //添加线程管理并订阅
+    public static void toSubscribe(Observable o, Subscriber s) {
+        o.subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(s);
     }
 }

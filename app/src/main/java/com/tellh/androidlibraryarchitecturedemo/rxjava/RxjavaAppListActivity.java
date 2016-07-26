@@ -92,8 +92,8 @@ public class RxjavaAppListActivity extends AppCompatActivity implements SwipeRef
 
     private void refreshTheList() {
         getApps()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+//                .compose(RxJavaUtils.<AppInfo>applySchedulers())
+                .compose(SchedulersCompat.<AppInfo>applyIoSchedulers())
                 .toSortedList()
                 .flatMap(new Func1<List<AppInfo>, Observable<AppInfo>>() {
                     @Override
