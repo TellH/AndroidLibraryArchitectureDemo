@@ -27,8 +27,6 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
         mContext = ctx;
         mInflater = LayoutInflater.from(ctx);
 
-        if (isHeaderExist()) mItems.add(0, null);
-        if (isFooterExist()) mItems.add(mItems.size(), null);
     }
 
 
@@ -149,7 +147,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
 
 
     @Override
-    final public int getItemCount() {
+    public int getItemCount() {
         return mItems.size();
     }
 
