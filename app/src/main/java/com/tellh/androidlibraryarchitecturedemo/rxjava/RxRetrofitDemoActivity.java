@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import rx.functions.Action1;
+import rx.subscriptions.CompositeSubscription;
 
 public class RxRetrofitDemoActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener,
         NetworkAccessListener, FooterLoadMoreAdapter.OnReachFooterListener {
@@ -24,11 +25,15 @@ public class RxRetrofitDemoActivity extends AppCompatActivity implements SwipeRe
     private static final int REFRESH = 0;
     private static final int LOAD_MORE = 1;
 
+    private CompositeSubscription subscriptions;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rx_retrofit_demo);
         initView();
+
+        subscriptions =new CompositeSubscription();
+
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new FooterLoadMoreAdapter(this, mList);
         mRecyclerView.setAdapter(adapter);
@@ -46,7 +51,7 @@ public class RxRetrofitDemoActivity extends AppCompatActivity implements SwipeRe
     }
 
     private void getMovie(int start, int count) {
-        GetTopMovieModel.getInstance().getTopMovie(new Action1<List<MovieEntity.SubjectsEntity>>() {
+        subscriptions.add(GetTopMovieModel.getInstance().getTopMovie(new Action1<List<MovieEntity.SubjectsEntity>>() {
             @Override
             public void call(List<MovieEntity.SubjectsEntity> subjectsEntities) {
                 if (updateType == REFRESH)
@@ -54,7 +59,7 @@ public class RxRetrofitDemoActivity extends AppCompatActivity implements SwipeRe
                 mList.addAll(subjectsEntities);
                 adapter.notifyDataSetChanged();
             }
-        }, start, count, this);
+        }, start, count, this));
     }
 
     @Override
@@ -87,5 +92,11 @@ public class RxRetrofitDemoActivity extends AppCompatActivity implements SwipeRe
         }
         updateType = LOAD_MORE;
         getMovie(itemCount, 50);
+    }
+
+    @Override
+    protected void onDestroy() {
+        subscriptions.unsubscribe();
+        super.onDestroy();
     }
 }

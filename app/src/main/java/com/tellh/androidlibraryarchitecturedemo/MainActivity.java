@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.tellh.androidlibraryarchitecturedemo.dagger2.TargetActivity;
 import com.tellh.androidlibraryarchitecturedemo.databinding.DataBindPrimaryPracticeActivity;
 import com.tellh.androidlibraryarchitecturedemo.databinding.DataBindingRVActivity;
 import com.tellh.androidlibraryarchitecturedemo.glide.GlideDemoActivity;
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
     }
 
@@ -52,5 +54,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickRxRetrofitDemo(View view) {
         startActivity(new Intent(MainActivity.this, RxRetrofitDemoActivity.class));
+    }
+
+    public void onClickDagger2Demo(View view) {
+        startActivity(new Intent(MainActivity.this, TargetActivity.class));
     }
 }
