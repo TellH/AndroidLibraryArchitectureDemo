@@ -27,7 +27,8 @@
         <activity android:name=".rxjava.RxjavaDemoActivity" />
         <activity android:name=".rxjava.RxjavaAppListActivity" />
         <activity android:name=".rxjava.RxRetrofitDemoActivity" />
-        <activity android:name=".dagger2.TargetActivity"></activity>
+        <activity android:name=".dagger2.TargetActivity" />
+        <activity android:name=".dagger2.MvpActivity"></activity>
     </application>
 
 </manifest>
