@@ -11,7 +11,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".rxjava.rxbus.RxBusDemoActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,7 +28,8 @@
         <activity android:name=".rxjava.RxjavaAppListActivity" />
         <activity android:name=".rxjava.RxRetrofitDemoActivity" />
         <activity android:name=".dagger2.TargetActivity" />
-        <activity android:name=".dagger2.MvpActivity"></activity>
+        <activity android:name=".dagger2.MvpActivity" />
+        <!--<activity android:name=".rxjava.rxbus.RxBusDemoActivity"></activity>-->
     </application>
 
 </manifest>
