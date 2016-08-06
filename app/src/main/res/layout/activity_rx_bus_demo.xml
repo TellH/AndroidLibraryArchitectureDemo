@@ -7,10 +7,12 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.tellh.androidlibraryarchitecturedemo.databinding.DataBindingRVActivity">
+    tools:context="com.tellh.androidlibraryarchitecturedemo.rxjava.rxbus.RxBusDemoActivity">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv"
+    <TextView
+        android:id="@+id/tv_receive"
+        android:textSize="20sp"
+        android:onClick="onClickTV"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content" />
 </RelativeLayout>
