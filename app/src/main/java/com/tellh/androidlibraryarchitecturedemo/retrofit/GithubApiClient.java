@@ -1,9 +1,14 @@
 package com.tellh.androidlibraryarchitecturedemo.retrofit;
 
 import com.google.gson.annotations.SerializedName;
+import com.tellh.androidlibraryarchitecturedemo.MyApplication;
 
+import java.io.File;
 import java.util.List;
 
+import okhttp3.Cache;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -21,13 +26,37 @@ public class GithubApiClient {
     private Retrofit retrofit;
 
     public static GithubApiClient client() {
+//        File cacheFile = new File(MyApplication.getInstance().getCacheDir(), "response");
+//        Cache cache = new Cache(cacheFile, 1024 * 1024 * 100); //100Mb
+//        OkHttpClient client = new OkHttpClient.Builder()
+//                .addInterceptor(new CacheInterceptor(MyApplication.getInstance()))
+//                .cache(cache)
+//                .build();
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .client(client)
+//                .baseUrl(GithubApiClient.GITHUB_URL)
+//                .build();
+//        GithubApiClient.ReposService reposService = retrofit.create(GithubApiClient.ReposService.class);
         if (mClient == null)
             mClient = new GithubApiClient();
-        if (mClient.retrofit == null)
+        if (mClient.retrofit == null) {
+            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+            File cacheFile = new File(MyApplication.getInstance().getCacheDir(), "response");
+            Cache cache = new Cache(cacheFile, 1024 * 1024 * 100); //100Mb
+            OkHttpClient client = new OkHttpClient.Builder()
+//                    .addInterceptor(loggingInterceptor)
+                    .addInterceptor(new CacheInterceptor(MyApplication.getInstance()))
+                    .cache(cache)
+                    .build();
             mClient.retrofit = new Retrofit.Builder()
                     .baseUrl(GITHUB_URL)
+                    .client(client)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
+        }
         return mClient;
     }
 

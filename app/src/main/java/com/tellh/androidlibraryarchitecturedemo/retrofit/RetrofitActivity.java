@@ -14,6 +14,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class RetrofitActivity extends AppCompatActivity {
     private TextView tvReponseStr;
 
@@ -25,6 +29,22 @@ public class RetrofitActivity extends AppCompatActivity {
         Map<String, String> params = new HashMap<>();
         params.put("key", "ba8c19698d164e098048dd401ac5ec65");
         params.put("cityid", "CN101280800");
+//        getGithubRequest();
+        Call<List<GithubApiClient.ReposService.Contributor>> call = GithubApiClient.client().reposService().getContributors("square", "retrofit");
+        call.enqueue(new Callback<List<GithubApiClient.ReposService.Contributor>>() {
+            @Override
+            public void onResponse(Call<List<GithubApiClient.ReposService.Contributor>> call, Response<List<GithubApiClient.ReposService.Contributor>> response) {
+                List<GithubApiClient.ReposService.Contributor> list = response.body();
+            }
+
+            @Override
+            public void onFailure(Call<List<GithubApiClient.ReposService.Contributor>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void getGithubRequest() {
         new RequestBuilder()
                 .get()
                 .url("https://api.github.com/repos/square/retrofit/contributors")
