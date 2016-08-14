@@ -17,7 +17,7 @@ import retrofit2.http.Path;
  */
 public class GithubApiClient {
     private static GithubApiClient mClient;
-    private static final String GITHUB_URL = "https://api.github.com/";
+    public static final String GITHUB_URL = "https://api.github.com/";
     private Retrofit retrofit;
 
     public static GithubApiClient client() {
@@ -39,7 +39,7 @@ public class GithubApiClient {
         @GET("repos/{owner}/{repo}/contributors")
         Call<List<Contributor>> getContributors(@Path("owner") String owner, @Path("repo") String repo);
 
-        public static class Contributor {
+        class Contributor {
             @SerializedName("login")
             public final String name;
             public final int contributions;

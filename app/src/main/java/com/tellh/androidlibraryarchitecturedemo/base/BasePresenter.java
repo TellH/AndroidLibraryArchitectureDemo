@@ -1,13 +1,11 @@
 package com.tellh.androidlibraryarchitecturedemo.base;
 
-import rx.Subscription;
-import rx.subscriptions.CompositeSubscription;
+import android.util.SparseArray;
 
 public class BasePresenter<T extends BaseView> implements MvpPresenter<T> {
 
+    protected SparseArray<UseCase> useCases = new SparseArray<>();
     private T view;
-
-    private CompositeSubscription compositeSubscription = new CompositeSubscription();//RxJava
 
     @Override
     public void attachView(T mvpView) {
@@ -17,8 +15,18 @@ public class BasePresenter<T extends BaseView> implements MvpPresenter<T> {
     @Override
     public void detachView() {
         view = null;
-        compositeSubscription.unsubscribe();
-        compositeSubscription.clear();
+        unsubscribeAll();
+        useCases.clear();
+    }
+
+    protected void unsubscribe(int key) {
+        useCases.get(key).unsubscribe();
+    }
+
+    protected void unsubscribeAll() {
+        for (int i = 0; i < useCases.size(); i++) {
+            useCases.valueAt(i).unsubscribe();
+        }
     }
 
     public T getView() {
@@ -35,8 +43,8 @@ public class BasePresenter<T extends BaseView> implements MvpPresenter<T> {
         return view != null;
     }
 
-    public void addSubscription(Subscription subscription) {
-        this.compositeSubscription.add(subscription);
+    public void registerUserCase(int key, UseCase useCase) {
+        this.useCases.put(key, useCase);
     }
 
     public static class MvpViewNotAttachedException extends RuntimeException {
