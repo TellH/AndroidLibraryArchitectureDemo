@@ -1,5 +1,6 @@
 package com.tellh.androidlibraryarchitecturedemo.retrofit;
 
+import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.gson.annotations.SerializedName;
 import com.tellh.androidlibraryarchitecturedemo.MyApplication;
 
@@ -47,8 +48,9 @@ public class GithubApiClient {
             File cacheFile = new File(MyApplication.getInstance().getCacheDir(), "response");
             Cache cache = new Cache(cacheFile, 1024 * 1024 * 100); //100Mb
             OkHttpClient client = new OkHttpClient.Builder()
-//                    .addInterceptor(loggingInterceptor)
+                    .addInterceptor(loggingInterceptor)
                     .addInterceptor(new CacheInterceptor(MyApplication.getInstance()))
+                    .addNetworkInterceptor(new StethoInterceptor())
                     .cache(cache)
                     .build();
             mClient.retrofit = new Retrofit.Builder()

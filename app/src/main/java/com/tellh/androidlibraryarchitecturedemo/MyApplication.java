@@ -5,6 +5,7 @@ import android.app.Application;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.facebook.stetho.Stetho;
 import com.tellh.androidlibraryarchitecturedemo.dagger2.component.AppComponent;
 import com.tellh.androidlibraryarchitecturedemo.dagger2.component.DaggerAppComponent;
 import com.tellh.androidlibraryarchitecturedemo.dagger2.component.DaggerTargetActivityComponent;
@@ -25,6 +26,7 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Stetho.initializeWithDefaults(this);
         mRequestQueue = Volley.newRequestQueue(this, new OkHttpStack());
         sInstance = this;
     }
