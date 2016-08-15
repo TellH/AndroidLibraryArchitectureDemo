@@ -50,6 +50,7 @@ public class GithubApiClient {
             OkHttpClient client = new OkHttpClient.Builder()
                     .addInterceptor(loggingInterceptor)
                     .addInterceptor(new CacheInterceptor(MyApplication.getInstance()))
+//                    .addNetworkInterceptor(new RemoveEtagInterceptor())
                     .addNetworkInterceptor(new StethoInterceptor())
                     .cache(cache)
                     .build();
