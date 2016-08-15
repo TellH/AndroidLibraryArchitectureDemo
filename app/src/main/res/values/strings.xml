@@ -11,4 +11,5 @@
     <string name="RxJavaDemo">RxJavaDemo</string>
     <string name="RxRetrofitDemo">RxRetrofitDemo</string>
     <string name="Dagger2Demo">Dagger2Demo</string>
+    <string name="LeakCanary">LeakCanary</string>
 </resources>

@@ -2,10 +2,13 @@ package com.tellh.androidlibraryarchitecturedemo;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.facebook.stetho.Stetho;
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 import com.tellh.androidlibraryarchitecturedemo.dagger2.component.AppComponent;
 import com.tellh.androidlibraryarchitecturedemo.dagger2.component.DaggerAppComponent;
 import com.tellh.androidlibraryarchitecturedemo.dagger2.component.DaggerTargetActivityComponent;
@@ -22,13 +25,14 @@ public class MyApplication extends Application {
     private RequestQueue mRequestQueue;
     private AppComponent mAppComponent;
     private TargetActivityComponent mTargetActivityComponent;
-
+    private RefWatcher refWatcher;
     @Override
     public void onCreate() {
         super.onCreate();
         Stetho.initializeWithDefaults(this);
         mRequestQueue = Volley.newRequestQueue(this, new OkHttpStack());
         sInstance = this;
+        refWatcher = LeakCanary.install(this);
     }
 
     public synchronized static MyApplication getInstance() {
@@ -56,5 +60,9 @@ public class MyApplication extends Application {
                     .build();
         }
         return mTargetActivityComponent;
+    }
+    public static RefWatcher getRefWatcher(Context context) {
+        MyApplication application = (MyApplication) context.getApplicationContext();
+        return application.refWatcher;
     }
 }

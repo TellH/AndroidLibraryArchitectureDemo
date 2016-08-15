@@ -9,6 +9,7 @@ import com.tellh.androidlibraryarchitecturedemo.dagger2.TargetActivity;
 import com.tellh.androidlibraryarchitecturedemo.databinding.DataBindPrimaryPracticeActivity;
 import com.tellh.androidlibraryarchitecturedemo.databinding.DataBindingRVActivity;
 import com.tellh.androidlibraryarchitecturedemo.glide.GlideDemoActivity;
+import com.tellh.androidlibraryarchitecturedemo.leakcanary.LeakTestActivity;
 import com.tellh.androidlibraryarchitecturedemo.okhttp.OkExampleActivity;
 import com.tellh.androidlibraryarchitecturedemo.retrofit.RetrofitActivity;
 import com.tellh.androidlibraryarchitecturedemo.rxjava.RxRetrofitDemoActivity;
@@ -58,5 +59,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickDagger2Demo(View view) {
         startActivity(new Intent(MainActivity.this, TargetActivity.class));
+    }
+
+    public void onClickLeakcanary(View view) {
+        startActivity(new Intent(MainActivity.this, LeakTestActivity.class));
     }
 }
