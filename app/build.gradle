@@ -17,6 +17,7 @@ android {
         renderscriptTargetApi 23
         renderscriptSupportModeEnabled true
 
+//        testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }
     buildTypes {
         release {

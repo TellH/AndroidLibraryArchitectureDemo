@@ -31,7 +31,8 @@
         <activity android:name=".dagger2.TargetActivity" />
         <activity android:name=".dagger2.MvpActivity" />
         <activity android:name=".leakcanary.LeakTestActivity" />
-        <!--<activity android:name=".rxjava.rxbus.RxBusDemoActivity"></activity>-->
+        <!-- <activity android:name=".rxjava.rxbus.RxBusDemoActivity"></activity> -->
+        <activity android:name=".test.AndroidTestActivity"></activity>
     </application>
 
 </manifest>
